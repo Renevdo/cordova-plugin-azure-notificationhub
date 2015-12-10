@@ -43,6 +43,7 @@ namespace Cordova.Extension.Commands
                 var notificationHubPath = args[0];
                 var connectionString = args[1];
                 this.pushNotificationCallback = args[2];
+                var tags = args[3];
 
                 if (string.IsNullOrEmpty(notificationHubPath))
                 {
@@ -66,17 +67,17 @@ namespace Cordova.Extension.Commands
                 if (channel == null)
                 {
                     channel = new HttpNotificationChannel(PluginChannelId);
-                    channel.ChannelUriUpdated += (o, res) => CompleteApplicationRegistration(res.ChannelUri.ToString(), notificationHubPath, connectionString);
+                    channel.ChannelUriUpdated += (o, res) => CompleteApplicationRegistration(res.ChannelUri.ToString(), notificationHubPath, connectionString, tags);
                     channel.Open();
                     channel.BindToShellToast();
                 }
                 else
                 {
-                    CompleteApplicationRegistration(channel.ChannelUri.ToString(), notificationHubPath, connectionString);
+                    CompleteApplicationRegistration(channel.ChannelUri.ToString(), notificationHubPath, connectionString, tags);
                 }
 
                 channel.ShellToastNotificationReceived += PushChannel_ShellToastNotificationReceived;
-                
+
             }
             catch (Exception ex)
             {
@@ -120,17 +121,31 @@ namespace Cordova.Extension.Commands
             }
         }
 
-        private async void CompleteApplicationRegistration(string channelUri, string notificationHubPath, string connectionString)
+        private async void CompleteApplicationRegistration(string channelUri, string notificationHubPath, string connectionString, string tags)
         {
             try
             {
                 var hub = new Microsoft.WindowsAzure.Messaging.NotificationHub(notificationHubPath, connectionString);
-                var registration = await hub.RegisterNativeAsync(channelUri);
-                
+
+                List<string> tagCollection = new List<string>();
+                if (tags.Contains(","))
+                {
+                    foreach (string tag in tags.Split(','))
+                    {
+                        tagCollection.Add(tag);
+                    }
+                }
+                else
+                {
+                    tagCollection.Add(tags);
+                }
+                var registration = await hub.RegisterNativeAsync(channelUri, tagCollection);
+
                 var regInfo = new RegisterResult();
                 regInfo.RegistrationId = registration.RegistrationId;
                 regInfo.ChannelUri = registration.ChannelUri;
                 regInfo.NotificationHubPath = registration.NotificationHubPath;
+                regInfo.Tags = registration.Tags;
 
                 DispatchCommandResult(new PluginResult(PluginResult.Status.OK, regInfo));
             }
@@ -142,7 +157,7 @@ namespace Cordova.Extension.Commands
 
         void PushChannel_ShellToastNotificationReceived(object sender, NotificationEventArgs e)
         {
-            
+
             // if there is no js handler
             if (this.pushNotificationCallback == null) return;
 
@@ -166,7 +181,7 @@ namespace Cordova.Extension.Commands
                         CordovaView cView = page.FindName("CordovaView") as CordovaView;
                         if (cView != null)
                         {
-                            cView.Browser.Dispatcher.BeginInvoke((ThreadStart)delegate()
+                            cView.Browser.Dispatcher.BeginInvoke((ThreadStart)delegate ()
                             {
                                 try
                                 {
@@ -195,6 +210,10 @@ namespace Cordova.Extension.Commands
 
             [DataMember(Name = "notificationHubPath", IsRequired = true)]
             public string NotificationHubPath { get; set; }
+
+            [DataMember(Name = "tags", IsRequired = true)]
+            public ISet<string> Tags { get; set; }
+
         }
 
         [DataContract]

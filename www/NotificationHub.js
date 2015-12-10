@@ -61,16 +61,16 @@ NotificationHub.prototype.registerApplicationAsync = function (tags) {
             me.onPushNotificationReceived(msg)
         }
     };
-    
+
     var deferral = new Promise.Deferral(),
 
     successCallback = function (result) {
-    	// registration completeness callback
-    	if (result && result.event == 'registerApplication') {
-        	delete result.event; // not required
-        	deferral.resolve(result);
+        // registration completeness callback
+        if (result && result.event == 'registerApplication') {
+            delete result.event; // not required
+            deferral.resolve(result);
         } else { //push notification
-    		    window[globalNotificationHandlerName](result);
+            window[globalNotificationHandlerName](result);
         }
     },
 
@@ -87,8 +87,7 @@ NotificationHub.prototype.registerApplicationAsync = function (tags) {
  * Asynchronously unregisters the native registration on the application or secondary tiles.
  * http://msdn.microsoft.com/en-us/library/microsoft.windowsazure.messaging.notificationhub.unregisternativeasync.aspx
  */
-NotificationHub.prototype.unregisterApplicationAsync = function ()
-{
+NotificationHub.prototype.unregisterApplicationAsync = function () {
     var deferral = new Promise.Deferral(),
 
         successCallback = function (result) {

@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C11C762A-646E-4EDF-B55D-10A9E62F7BA0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Project</RootNamespace>
+    <AssemblyName>Project</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="App.config" />
+    <None Include="LICENSE" />
+    <None Include="README.md" />
+    <None Include="src\ios\NotificationHub.m" />
+    <None Include="src\ios\WindowsAzureMessaging.framework\License.rtf" />
+    <None Include="src\ios\WindowsAzureMessaging.framework\Versions\A\WindowsAzureMessaging" />
+    <None Include="src\ios\WindowsAzureMessaging.framework\Versions\Current\WindowsAzureMessaging" />
+    <None Include="src\ios\WindowsAzureMessaging.framework\WindowsAzureMessaging" />
+    <None Include="src\windows8\NotificationHubRuntimeProxy.winmd" />
+    <None Include="src\windows8\NotificationHubRuntimeProxy\packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="plugin.xml" />
+    <Content Include="src\android\google-play-services.jar" />
+    <Content Include="src\android\notification-hubs-0.1.jar" />
+    <Content Include="src\android\NotificationHub.java" />
+    <Content Include="src\ios\NotificationHub.h" />
+    <Content Include="src\ios\WindowsAzureMessaging.framework\Headers\SBConnectionString.h" />
+    <Content Include="src\ios\WindowsAzureMessaging.framework\Headers\SBNotificationHub.h" />
+    <Content Include="src\ios\WindowsAzureMessaging.framework\Headers\WindowsAzureMessaging.h" />
+    <Content Include="src\ios\WindowsAzureMessaging.framework\Versions\A\Headers\SBConnectionString.h" />
+    <Content Include="src\ios\WindowsAzureMessaging.framework\Versions\A\Headers\SBNotificationHub.h" />
+    <Content Include="src\ios\WindowsAzureMessaging.framework\Versions\A\Headers\WindowsAzureMessaging.h" />
+    <Content Include="src\ios\WindowsAzureMessaging.framework\Versions\Current\Headers\SBConnectionString.h" />
+    <Content Include="src\ios\WindowsAzureMessaging.framework\Versions\Current\Headers\SBNotificationHub.h" />
+    <Content Include="src\ios\WindowsAzureMessaging.framework\Versions\Current\Headers\WindowsAzureMessaging.h" />
+    <Content Include="src\windows8\Microsoft.WindowsAzure.Messaging.Managed.dll" />
+    <Content Include="src\windows8\NotificationHubProxy.js" />
+    <Content Include="src\windows8\NotificationHubRuntimeProxy\NotificationHubRuntimeProxy.csproj" />
+    <Content Include="src\wp\Microsoft.WindowsAzure.Messaging.dll" />
+    <Content Include="test\css\index.css" />
+    <Content Include="test\img\logo.png" />
+    <Content Include="test\index.html" />
+    <Content Include="test\js\index.js" />
+    <Content Include="www\NotificationHub.js" />
+    <Content Include="www\Promise.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\windows8\NotificationHubRuntimeProxy\HubApi.cs" />
+    <Compile Include="src\windows8\NotificationHubRuntimeProxy\Properties\AssemblyInfo.cs" />
+    <Compile Include="src\wp\NotificationHub.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

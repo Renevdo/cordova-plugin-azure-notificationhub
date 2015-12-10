@@ -24,6 +24,8 @@ module.exports = {
             var notificationHubPath = args[0];
             var connectionString = args[1];
             var pushNotificationCallback = window[args[2]];
+            var tags = args[3];
+
             var pushNotificationHandler = function (e) {
                 var notification = null;
                 try {
@@ -43,7 +45,7 @@ module.exports = {
                             break;
                     }
                     pushNotificationCallback(notification);
-                } catch (ex) {}
+                } catch (ex) { }
                 e.cancel = true;
             }
 
@@ -52,10 +54,11 @@ module.exports = {
             Windows.Networking.PushNotifications.PushNotificationChannelManager.createPushNotificationChannelForApplicationAsync().then(function (channel) {
                 notificationChannel = channel;
                 notificationChannel.addEventListener('pushnotificationreceived', pushNotificationHandler);
-                return (new NotificationHubRuntimeProxy.HubApi()).registerNativeAsync(notificationHubPath, connectionString, channel.uri);
+                return (new NotificationHubRuntimeProxy.HubApi()).registerNativeAsync(notificationHubPath, connectionString, channel.uri, tags);
             }).done(function (result) {
                 var regInfo = {};
-                regInfo.registrationId = result;
+                regInfo.registrationId = result.RegistrationId;
+                regInfo.tags = result.tags;
                 regInfo.channelUri = notificationChannel.uri;
                 regInfo.notificationHubPath = notificationHubPath;
                 regInfo.event = 'registerApplication';
@@ -72,7 +75,7 @@ module.exports = {
         try {
             var notificationHubPath = args[0];
             var connectionString = args[1];
-          
+
             (new NotificationHubRuntimeProxy.HubApi()).unregisterNativeAsync(notificationHubPath, connectionString);
 
             success();
