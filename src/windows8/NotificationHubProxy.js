@@ -57,7 +57,7 @@ module.exports = {
                 return (new NotificationHubRuntimeProxy.HubApi()).registerNativeAsync(notificationHubPath, connectionString, channel.uri, tags);
             }).done(function (result) {
                 var regInfo = {};
-                regInfo.registrationId = result.RegistrationId;
+                regInfo.registrationId = result.registrationId;
                 regInfo.tags = result.tags;
                 regInfo.channelUri = notificationChannel.uri;
                 regInfo.notificationHubPath = notificationHubPath;
